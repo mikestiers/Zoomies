@@ -158,7 +158,8 @@ public class PlayerControllerWheelColliders : MonoBehaviour
 
         // Reset the car to the starting point
         Vector3 newPosition = transform.position;
-        transform.position = new Vector3(-22f, 32.2799988f, -500.349976f);
+        transform.position = new Vector3(141.800003f, 46.2999992f, -318.700012f);
+        //transform.rotation = new Vector3(67.5265045f, 0f, 0f);
 
         // Reset momentum
         Rigidbody rb = GetComponent<Rigidbody>();
