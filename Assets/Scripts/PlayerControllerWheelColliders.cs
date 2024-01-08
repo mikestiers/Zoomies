@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,8 @@ public class PlayerControllerWheelColliders : MonoBehaviour
     public Rigidbody vehicleRigidbody;
     public WheelCollider frontLeftWheelCollider, frontRightWheelCollider, rearLeftWheelCollider, rearRightWheelCollider;
     public Transform frontLeftWheel, frontRightWheel, rearLeftWheel, rearRightWheel;
+    public GameObject brakeLights;
+    public TrailRenderer[] skidTrails = new TrailRenderer[2];
 
     [Header("Capatilities")]
     public float motorForce = 1000f;
@@ -59,6 +62,7 @@ public class PlayerControllerWheelColliders : MonoBehaviour
         {
             ResetCar();
         }
+        HUDManager.singleton.UpdateSpeedometer(currentGear, vehicleRigidbody.velocity.magnitude);
     }
     void FixedUpdate()
     {
@@ -193,8 +197,11 @@ public class PlayerControllerWheelColliders : MonoBehaviour
 
     private void ApplyBrake(float brakeForce)
     {
-        if (brakeForce > 0)
-            Debug.Log("Braking: " + brakeForce);
+        brakeLights.SetActive(brakeForce > 0);
+        foreach (TrailRenderer skidTrail in skidTrails)
+        {
+            skidTrail.emitting = brakeForce > 0;
+        }
         foreach (var wheelCollider in wheelColliders)
         {
             wheelCollider.brakeTorque = brakeForce;
